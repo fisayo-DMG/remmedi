@@ -1,12 +1,14 @@
-import React from "react";
-import { data } from "../data";
+import React, {useEffect} from "react";
+// import { data } from "../data";
 import Prescription from "./Prescription";
 
 const PrescriptionsList = (props) => {
-  // console.log(props);
-  const data = props.data;
-  const prescriptions = data.map(p => {
-    return <Prescription key={p.id} name={p.name} start={p.start} end={p.end} numOfTimesPerDay={p.numOfTimesPerDay} numOfTablets={p.numOFTablets}/>;
+  console.log(props);
+  const {completeDosage, data} = props;
+  const prescriptions = data
+    // .filter(p => p.completedDosage !== true)
+    .map(p => {
+    return <Prescription key={p._id} name={p.name} start={p.startDate} end={p.endDate} numOfTimesPerDay={p.numOfTimesPerDay} numOfTablets={p.numOfTablets} id={p._id} completedDosage={p.completedDosage} completeDosage={completeDosage}/>;
   });
   return (
     <>

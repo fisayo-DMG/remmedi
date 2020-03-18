@@ -40,7 +40,7 @@ exports.addPrescription = async (req, res, next) => {
     });
   } catch (err) {
     if (err.name === "ValidationError") {
-      const messages = Object.values.map(val => val.message);
+      const messages = Object.values(err.errors).map(val => val.message);
       return res.status(400).json({
         success: false,
         error: messages
@@ -73,7 +73,38 @@ exports.deletePrescription = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       data: {}
-    })
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error"
+    });
+  }
+};
+
+// @desc update prescriptions
+// @route UPDATE /api/v1/transactions/:id
+// @access Public
+
+exports.completeDosage = async (req, res, next) => {
+  const {completedDosage, id} = req.body
+  try {
+    const prescription = await Prescription.findOneAndUpdate(
+      { _id: id },
+      { completedDosage: completedDosage },
+      { new: true }
+    );
+    if (!prescription) {
+      return res.status(404).json({
+        success: false,
+        error: "No prescription was found"
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: prescription
+    });
   } catch (err) {
     return res.status(500).json({
       success: false,

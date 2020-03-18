@@ -14,8 +14,9 @@ const Prescription = props => {
     return datesArray;
   };
 
-  const { start, end, numOfTimesPerDay, numOfTablets } = props;
+  const { start, end, numOfTimesPerDay, numOfTablets, completedDosage, completeDosage, id } = props;
   let startDate = new Date(start);
+  let dateString = startDate.toDateString();
   let endDate = new Date(end);
   let numDays = getDatesArray(startDate, endDate).length;
   let dosage = numOfTimesPerDay === 1 ? "once a day" : `${numOfTimesPerDay} times daily`;
@@ -26,10 +27,10 @@ const Prescription = props => {
     <div className="gig">
       <h3>{props.name}</h3>
       <p>
-        Take {tabletString} {dosage} for {duration} starting from {start}.
+        Take {tabletString} {dosage} for {duration} starting from {dateString}.
       </p>
       <ul>
-            <li>Completed: <input type='checkbox' /></li>
+            <li>Completed: <input type='checkbox' name='completedDosage' checked={completedDosage} onChange={() => completeDosage(id)}/></li>
             <li>
               <Link to='/details' className="btn btn-reverse" style={{marginLeft: '40px'}}>
                 Details

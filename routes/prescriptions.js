@@ -1,14 +1,22 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const {getPrescriptions, addPrescription, deletePrescription} = require('../controllers/prescriptions')
+const {
+  getPrescriptions,
+  addPrescription,
+  deletePrescription,
+  completeDosage
+} = require("../controllers/prescriptions");
 
 router
-    .route('/')
-    .get(getPrescriptions)
-    .post(addPrescription);
+  .route("/")
+  .get(getPrescriptions)
+  .post(addPrescription);
+
+router.route("/update").post(completeDosage);
 
 router
-    .route('/:id')
-    .delete(deletePrescription);
+    .route("/:id")
+    .delete(deletePrescription)
+    .patch(completeDosage)
 
 module.exports = router;

@@ -29,13 +29,14 @@ const AddPrescription = ({ addPrescription }) => {
   const handleSubmit = e => {
     e.preventDefault();
     const prescription = {
-      id: Math.floor(Math.random() * 100000000),
+      // id: Math.floor(Math.random() * 100000000),
       name: state.name,
-      numOFTablets: Number(state.numOFTablets),
+      numOfTablets: Number(state.numOFTablets),
       numOfTimesPerDay: Number(state.numOfTimesPerDay),
-      start: new Date(state.startDate).toDateString(),
-      end: state.endDate,
-      completed: false
+      // startDate: new Date(state.startDate).toDateString(),
+      startDate: state.startDate,
+      endDate: state.endDate,
+      completedDosage: false
     };
     addPrescription(prescription);
   };
