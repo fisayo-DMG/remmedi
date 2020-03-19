@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
 const colors = require('colors');
@@ -21,9 +22,14 @@ app.use(express.json());
 app.use('/api/v1/prescriptions', prescriptions);
 app.use('/api/v1/users', user)
 
-app.get('/', (req, res) => {
-    res.send('Hello')
-})
+if(process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    })
+    
+}
 
 const PORT = process.env.PORT || 5000
 
