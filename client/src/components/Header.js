@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = ({logout}) => {
   return (
     <header className="inner">
       <h2>
@@ -16,6 +16,9 @@ const Header = () => {
           </li>
           <li>
             <Link to="/add">Add Prescription</Link>
+          </li>
+          <li>
+            <Link to="/" onClick={logout}>Log Out</Link>
           </li>
         </ul>
       </nav>
