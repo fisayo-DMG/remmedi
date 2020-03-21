@@ -24,7 +24,7 @@ function App() {
     } else {
       setAuthenticated(false)
     }
-  }, [authenticated])
+  }, [])
 
   const login = async (user) => {
     console.log('LOG IN')
