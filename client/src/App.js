@@ -14,19 +14,33 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [authenticated, setAuthenticated] = useState(false);
+  const [userData, setUserData] = useState('data');
+
+  // Properties of userData are userId and email
+
+  useEffect(() => {
+    if (localStorage.getItem('remmediUserToken')) {
+      setAuthenticated(true);
+    } else {
+      setAuthenticated(false)
+    }
+  }, [authenticated])
 
   const login = async (user) => {
     console.log('LOG IN')
     const config = {
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       }
     };
     try {
       const res = await axios.post(
         "/api/v1/users/login", user, config
       );
-      if(res.data.token === 'token'){
+      if(res.data.status === 'success'){
+        localStorage.setItem('remmediUserToken', res.data.token);
+        console.log(res.data, "USER DATA" );
+        setUserData(res.data.userData)
         setAuthenticated(true)
       }
     } catch (err) {
@@ -56,20 +70,16 @@ function App() {
 
   const logout = () => {
     setAuthenticated(false);
+    localStorage.removeItem("remmediUserToken");
     return <Redirect to='/' />
   }
 
-  const addPrescription = async prescription => {
-    const test = {
-      name: "Test",
-      numOfTablets: 2,
-      numOfTimesPerDay: 2,
-      startDate: "2020-03-07",
-      endDate: "2020-03-20"
-    };
+  const addPrescription = async presc => {
+    const prescription = {...presc, userID: userData.userId, email: userData.email}
     const config = {
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        'x-access-token': localStorage.getItem('remmediUserToken')
       }
     };
     console.log(prescription);
@@ -91,8 +101,14 @@ function App() {
   };
 
   async function getPrescriptions() {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        'x-access-token': localStorage.getItem('remmediUserToken')
+      }
+    };
     try {
-      const res = await axios.get("/api/v1/prescriptions");
+      const res = await axios.get(`/api/v1/prescriptions/${userData.userId}`);
       setPrescriptions(res.data.data);
       setLoading(false);
     } catch (err) {
@@ -133,9 +149,10 @@ function App() {
     }
   }
 
-  useEffect(() => {
-    getPrescriptions();
-  }, []);
+  // This should be in PrescriptionList
+  // useEffect(() => {
+  //   getPrescriptions();
+  // }, []);
 
   if (!authenticated) {
     return (
@@ -153,8 +170,10 @@ function App() {
           path="/"
           component={props => (
             <PrescriptionsList
+            userData={userData}
               data={prescriptions}
               completeDosage={completeDosage}
+              getPrescriptions={getPrescriptions}
             />
           )}
         />

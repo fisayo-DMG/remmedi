@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {
   getPrescriptions,
+  getUserPrescriptions,
   addPrescription,
   deletePrescription,
   completeDosage
@@ -18,5 +19,11 @@ router
     .route("/:id")
     .delete(deletePrescription)
     .patch(completeDosage)
+    .get(getUserPrescriptions)
+
+// router
+//     .route("/:email")
+//     .get(getUserPrescriptions)
+
 
 module.exports = router;

@@ -22,6 +22,15 @@ const TransactionSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
+  userID: {
+    type: String,
+    required: true,
+    default: "ID"
+  },
+  email: {
+    type: String,
+    required: true
+  },
   completedDosage: {
     type: Boolean,
     default: false
@@ -46,4 +55,4 @@ const TransactionSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Prescription', TransactionSchema);
+module.exports = mongoose.model("Prescription", TransactionSchema);
