@@ -47,7 +47,7 @@ const SignIn = ({login}) => {
                 name="email"
                 id="signinName"
                 className="input-box"
-                placeholder="Enter your email as your username"
+                placeholder="Enter your email"
                 value={state.name}
                 onChange={handleChange}
               />

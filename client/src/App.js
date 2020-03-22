@@ -14,14 +14,14 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [authenticated, setAuthenticated] = useState(false);
-  const [userData, setUserData] = useState('data');
+  const [userID, setUserID] = useState('data');
 
   let test = null;
 
   useEffect(() => {
     console.log('app.js use effect')
     if (localStorage.getItem('remmediUserToken')) {
-      setUserData(localStorage.getItem('remmediUserData'))
+      setUserID(localStorage.getItem('remmediUserId'))
       setAuthenticated(true);
     } else {
       setAuthenticated(false)
@@ -42,10 +42,12 @@ function App() {
       if(res.data.status === 'success'){
         localStorage.setItem('remmediUserToken', res.data.token);
         console.log(res.data, "USER DATA" );
-        localStorage.setItem('remmediUserData', res.data.userData.userId);
-        // console.log(localStorage.getItem('remmediUserData'))
+        localStorage.setItem('remmediUserId', res.data.userData.userId);
+        localStorage.setItem('remmediUserEmail', res.data.userData.email);
+
+        // console.log(localStorage.getItem('remmediUserId'))
         // setUserData(res.data.userData)
-        setUserData(localStorage.getItem('remmediUserData'))
+        setUserID(localStorage.getItem('remmediUserId'))
         setAuthenticated(true)
       } else {
         console.log('What is going on?')
@@ -78,12 +80,13 @@ function App() {
   const logout = () => {
     setAuthenticated(false);
     localStorage.removeItem("remmediUserToken");
-    localStorage.removeItem("remmediUserData");
+    localStorage.removeItem("remmediUserId");
+    localStorage.removeItem('remmediUserEmail');
     return <Redirect to='/' />
   }
 
-  const addPrescription = async presc => {
-    const prescription = {...presc, userID: userData.userId, email: userData.email}
+  const addPrescription = async prescription => {
+    // const prescription = {...presc, userID: userData.userId, email: userData.email}
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -101,7 +104,8 @@ function App() {
       // setPrescriptions((prev) => {
       //   return [...prev, res.data.data]
       // })
-      getPrescriptions();
+      // getPrescriptions();
+      return <Redirect to='/' />
     } catch (err) {
       // setError(err.response.data.error);
       console.log("err");
@@ -117,7 +121,7 @@ function App() {
     };
     try {
 
-      const res = await axios.get(`/api/v1/prescriptions/${userData}`);
+      const res = await axios.get(`/api/v1/prescriptions/${userID}`);
       setLoading(false);
       setPrescriptions(res.data.data);
       // setPrescriptions(data);
@@ -183,7 +187,6 @@ function App() {
           path="/"
           component={props => (
             <PrescriptionsList
-            userData={userData}
               data={prescriptions}
               completeDosage={completeDosage}
               getPrescriptions={getPrescriptions}

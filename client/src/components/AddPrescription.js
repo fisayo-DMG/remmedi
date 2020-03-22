@@ -38,6 +38,8 @@ const AddPrescription = ({ addPrescription }) => {
       // startDate: new Date(state.startDate).toDateString(),
       startDate: state.startDate,
       endDate: state.endDate,
+      userID: localStorage.getItem('remmediUserId'),
+      email: localStorage.getItem('remmediUserEmail'),
       completedDosage: false
     };
     addPrescription(prescription);

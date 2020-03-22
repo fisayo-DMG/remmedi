@@ -68,7 +68,8 @@ exports.addPrescription = async (req, res, next) => {
       numOfTimesPerDay,
       startDate,
       endDate,
-      completedDosage
+      completedDosage,
+      email
     } = req.body;
     const prescription = await Prescription.create(req.body);
 
@@ -81,7 +82,7 @@ exports.addPrescription = async (req, res, next) => {
     });
     const mailOptions = {
       from: "remmedi-app@hotmail.com",
-      to: "aikomofisayo@gmail.com",
+      to: email,
       subject: "Nodemailer Test",
       text: "This is a test message from Nodemailer"
     };
@@ -91,7 +92,7 @@ exports.addPrescription = async (req, res, next) => {
     // let startTime = new Date(Date.now() + 5000);
     // let endTime = new Date(startTime.getTime() + 180000);
     // let rule = "*/30 * * * * *";
-    let rule = "30 8 * * *";
+    let rule = "30 15 * * *";
     let job = schedule.scheduleJob(
       {
         start: startTime,
