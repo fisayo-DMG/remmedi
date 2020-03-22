@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
 // import "../LandingPage.css";
 import SignUp from "./SignUp";
@@ -6,6 +6,10 @@ import SignIn from "./SignIn";
 import { Route, Switch } from "react-router-dom";
 
 const LandingPage = ({login, signup}) => {
+
+  useEffect(() => {
+console.log('LANDING PAGE')
+  }, [])
   return (
     // <div className='container'>
     //   <SignIn />

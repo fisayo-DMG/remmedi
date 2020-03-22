@@ -16,10 +16,12 @@ function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [userData, setUserData] = useState('data');
 
-  // Properties of userData are userId and email
+  let test = null;
 
   useEffect(() => {
+    console.log('app.js use effect')
     if (localStorage.getItem('remmediUserToken')) {
+      setUserData(localStorage.getItem('remmediUserData'))
       setAuthenticated(true);
     } else {
       setAuthenticated(false)
@@ -40,8 +42,13 @@ function App() {
       if(res.data.status === 'success'){
         localStorage.setItem('remmediUserToken', res.data.token);
         console.log(res.data, "USER DATA" );
-        setUserData(res.data.userData)
+        localStorage.setItem('remmediUserData', res.data.userData.userId);
+        // console.log(localStorage.getItem('remmediUserData'))
+        // setUserData(res.data.userData)
+        setUserData(localStorage.getItem('remmediUserData'))
         setAuthenticated(true)
+      } else {
+        console.log('What is going on?')
       }
     } catch (err) {
       console.log(err)
@@ -71,6 +78,7 @@ function App() {
   const logout = () => {
     setAuthenticated(false);
     localStorage.removeItem("remmediUserToken");
+    localStorage.removeItem("remmediUserData");
     return <Redirect to='/' />
   }
 
@@ -108,11 +116,15 @@ function App() {
       }
     };
     try {
-      const res = await axios.get(`/api/v1/prescriptions/${userData.userId}`);
-      setPrescriptions(res.data.data);
+
+      const res = await axios.get(`/api/v1/prescriptions/${userData}`);
       setLoading(false);
+      setPrescriptions(res.data.data);
+      // setPrescriptions(data);
+      
     } catch (err) {
-      setError(err.response.data.error);
+      // setError(err.response.data.error);
+      console.log(err, 'setError')
     }
   }
 
@@ -151,6 +163,7 @@ function App() {
 
   // This should be in PrescriptionList
   // useEffect(() => {
+  //   console.log('app.js use effect 2')
   //   getPrescriptions();
   // }, []);
 

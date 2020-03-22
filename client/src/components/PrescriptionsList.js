@@ -3,20 +3,15 @@ import React, {useEffect, useState} from "react";
 import Prescription from "./Prescription";
 
 const PrescriptionsList = (props) => {
-  // const [userEmail, setUserEmail] = useState('');
-  // const email = props.userData.email;
-
-  // useEffect(() => {
-  //   setUserEmail(email);
-  // }, []);
-
 
   useEffect(() => {
     props.getPrescriptions();
+    console.log('use effect')
   }, []);
 
-  console.log(props, "THE PROPS");
+  // console.log(props, "THE PROPS");
   const {completeDosage, data} = props;
+
   const prescriptions = data
     // .filter(p => p.email === email)
     // .filter(p => p.completedDosage !== true)

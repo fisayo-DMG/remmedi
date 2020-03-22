@@ -12,6 +12,8 @@ const AddPrescription = ({ addPrescription }) => {
     // duration: []
   });
 
+  console.log('ADD PRESCRIPTION')
+
   // const options = ["one", "two", "three"];
 
   // const defaultOption = options[0];
