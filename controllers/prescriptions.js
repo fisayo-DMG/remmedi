@@ -92,7 +92,7 @@ exports.addPrescription = async (req, res, next) => {
     // let startTime = new Date(Date.now() + 5000);
     // let endTime = new Date(startTime.getTime() + 180000);
     // let rule = "*/30 * * * * *";
-    let rule = "30 16 * * *";
+    let rule = "30 13 * * *";
     let job = schedule.scheduleJob(
       {
         start: startTime,

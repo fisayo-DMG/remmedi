@@ -6,7 +6,7 @@ import Header from "./components/Header";
 import PrescriptionsList from "./components/PrescriptionsList";
 import AddPrescription from "./components/AddPrescription";
 import LandingPage from "./components/LandingPage";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 import axios from "axios";
 
 function App() {
@@ -15,6 +15,8 @@ function App() {
   const [error, setError] = useState(null);
   const [authenticated, setAuthenticated] = useState(false);
   const [userID, setUserID] = useState('data');
+
+  const history = useHistory();
 
   let test = null;
 
@@ -105,7 +107,8 @@ function App() {
       //   return [...prev, res.data.data]
       // })
       // getPrescriptions();
-      return <Redirect to='/' />
+      // return <Redirect to='/' />
+      history.push('/');
     } catch (err) {
       // setError(err.response.data.error);
       console.log("err");

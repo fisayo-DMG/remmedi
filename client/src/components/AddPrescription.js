@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import Dropdown from "react-dropdown";
-import "react-dropdown/style.css";
+import {useHistory, Redirect} from 'react-router-dom'
+// import Dropdown from "react-dropdown";
+// import "react-dropdown/style.css";
 
 const AddPrescription = ({ addPrescription }) => {
+
+  const history = useHistory();
+
   const [state, setState] = useState({
     name: "",
     numOFTablets: "",
@@ -43,6 +47,8 @@ const AddPrescription = ({ addPrescription }) => {
       completedDosage: false
     };
     addPrescription(prescription);
+    // return <Redirect to='/' />
+    // history.push('/')
   };
   return (
     <>
